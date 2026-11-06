@@ -18,6 +18,8 @@ public class ConfigManager {
     private String obsidianCageMaterial;
     private boolean obsidianCageAnnounce;
     private List<String> obsidianCageAnnounceMsg;
+    private int obsidianCageBlocksPerTick;
+    private int obsidianCageAnnouncementDelay;
 
     private final ItemRitualsPlugin plugin;
     private FileConfiguration config;
@@ -144,6 +146,8 @@ public class ConfigManager {
         obsidianCageMaterial = config.getString("obsidian-cage.material", "OBSIDIAN");
         obsidianCageAnnounce = config.getBoolean("obsidian-cage.announce", true);
         obsidianCageAnnounceMsg = config.getStringList("obsidian-cage.announce-msg");
+        obsidianCageBlocksPerTick = config.getInt("obsidian-cage.blocks-per-tick", 5);
+        obsidianCageAnnouncementDelay = config.getInt("obsidian-cage.announcement-delay", 5);
         debug = config.getBoolean("settings.debug", false);
 
         ritualDuration = config.getInt("ritual.duration", 600);
@@ -345,6 +349,8 @@ public class ConfigManager {
     public String getObsidianCageMaterial() { return obsidianCageMaterial; }
     public boolean isObsidianCageAnnounce() { return obsidianCageAnnounce; }
     public List<String> getObsidianCageAnnounceMsg() { return obsidianCageAnnounceMsg.stream().map(this::color).toList(); }
+    public int getObsidianCageBlocksPerTick() { return obsidianCageBlocksPerTick; }
+    public int getObsidianCageAnnouncementDelay() { return obsidianCageAnnouncementDelay; }
 
     public enum SelectionMode {
         RANDOM, FIRST, PRIORITY

@@ -233,6 +233,15 @@ obsidian-cage:
   # Example: 600 = 10 minutes total ritual duration
   duration: 600
 
+  # Number of blocks to place per tick during cage construction
+  # Lower values create a smoother effect but take longer to complete
+  # Higher values create a faster effect but may cause lag spikes
+  blocks-per-tick: 5
+
+  # Delay the announcement of the cage formation by this many seconds
+  # This helps reduce server lag at the start of the ritual
+  announcement-delay: 5
+
 # ───────────────────────────────────────────────────────────────
 # GUI SETTINGS
 # ───────────────────────────────────────────────────────────────
