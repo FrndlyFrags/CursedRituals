@@ -197,27 +197,41 @@ messages:
     - "&8◈ &c☠ &7RITUAL &cCANCELLED &8☠ &7◈"
     - "&8◈ &7The ritual has been silenced..."
 
-# ───────────────────────────────────────────────────────────────
-# OBSIDIAN CAGE
-# ───────────────────────────────────────────────────────────────
+# =============================================
+# OBSIDIAN CAGE SETTINGS (Final Ritual Barrier)
+# =============================================
+# The obsidian cage forms around the ritual location in the final minutes,
+# creating a sealed, magical barrier. Players can mine the blocks, but they
+# auto-repair to maintain the ritual's integrity.
+
 obsidian-cage:
-  # Enable the obsidian cage around the ritual
+  # Enable or disable the obsidian cage feature
   enabled: true
-  # Size of the cage (30 = 30x30 blocks)
+
+  # Size of the cage in blocks (width × depth)
+  # Example: 30 means a 30×30 block area
   size: 30
-  # Duration of the ritual in seconds (cage appears in the last N seconds)
-  # This is used to calculate when to spawn the cage
-  duration: 600
-  # Time in seconds before ritual completion when cage appears (e.g., 180 = 3 mins, 120 = 2 mins)
+
+  # Time (in seconds) before ritual end when the cage appears
+  # Example: 120 = 2 minutes before ritual completion
   warning-time: 120
-  # Material for the cage (default: OBSIDIAN)
+
+  # Block material used for the cage (e.g., OBSIDIAN, BLACK_CONCRETE)
+  # Obsidian is recommended for its mystical look, but you can change it!
   material: OBSIDIAN
-  # Announce when cage appears
+
+  # Send an announcement when the cage forms
   announce: true
-  # Messages to send when cage appears
+
+  # Custom announcement messages (use color codes like &e, &c, etc.)
+  # Example: "&e✦ &c☠ &6Obsidian Cage Formed! &c☠ &e✦"
   announce-msg:
     - "&e✦ &c☠ &6Obsidian Cage Formed! &c☠ &e✦"
     - "&7The ritual is now sealed within an obsidian cage!"
+
+  # Duration of the ritual in seconds (used to calculate cage appearance time)
+  # Example: 600 = 10 minutes total ritual duration
+  duration: 600
 
 # ───────────────────────────────────────────────────────────────
 # GUI SETTINGS
