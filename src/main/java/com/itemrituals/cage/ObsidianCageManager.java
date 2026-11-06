@@ -5,13 +5,13 @@ import com.itemrituals.plugin.ItemRitualsPlugin;
 import com.itemrituals.ritual.Ritual;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
-import org.bukkit.block.data.BlockData;
 
 public class ObsidianCageManager {
 
@@ -20,6 +20,10 @@ public class ObsidianCageManager {
     private boolean cageActive;
     private final Map<Location, BlockData> originalBlocks = new HashMap<>();
     private final Set<Location> cageBlocks = new HashSet<>();
+    private BukkitTask gradualCageTask;
+    private BukkitTask gradualRemoveTask;
+    private int totalBlocksToPlace = 0;
+    private int blocksRemoved = 0;
 
     public ObsidianCageManager(ItemRitualsPlugin plugin) {
         this.plugin = plugin;
@@ -31,93 +35,95 @@ public class ObsidianCageManager {
         if (cageActive) stopCage();
 
         ConfigManager config = plugin.getConfigManager();
-        int warningTime = config.getObsidianCageWarningTime(); // in seconds
-        int ritualDuration = ritual.getDuration(); // total duration in seconds
-
-        // Calculate delay: show cage warningTime seconds before ritual ends
-        // If ritualDuration is less than warningTime, show cage immediately
+        int warningTime = config.getObsidianCageWarningTime();
+        int ritualDuration = ritual.getDuration();
         long delaySeconds = Math.max(0, ritualDuration - warningTime);
 
-        plugin.getCageAnnouncementManager().announceCageFormation(ritual);
+        preCalculateCageLocations(ritual);
 
-        // Schedule cage creation at the correct time (warningTime before end)
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (!cageActive || ritual.isCompleted() || ritual.isCancelled()) return;
                 createObsidianCage(ritual);
             }
-        }.runTaskLater(plugin, delaySeconds * 20L); // convert seconds to ticks
+        }.runTaskLater(plugin, delaySeconds * 20L);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!cageActive || ritual.isCompleted() || ritual.isCancelled()) return;
+                plugin.getCageAnnouncementManager().announceCageFormation(ritual);
+            }
+        }.runTaskLater(plugin, (delaySeconds - config.getObsidianCageAnnouncementDelay()) * 20L);
 
         cageActive = true;
     }
 
     public void stopCage() {
         if (!cageActive) return;
-
-        if (cageTask != null) {
-            cageTask.cancel();
-            cageTask = null;
-        }
-
+        if (cageTask != null) cageTask.cancel();
+        if (gradualCageTask != null) gradualCageTask.cancel();
         removeObsidianCage();
-
         cageActive = false;
         cageBlocks.clear();
+        originalBlocks.clear();
     }
 
-    // Called on server shutdown to ensure cage is cleaned up
-    public void shutdown() {
-        stopCage();
+    private void preCalculateCageLocations(Ritual ritual) {
+        Location center = ritual.getCenterLocation();
+        if (center == null || center.getWorld() == null) return;
+        int size = plugin.getConfigManager().getObsidianCageSize();
+        int halfSize = size / 2;
+        cageBlocks.clear();
+        for (int x = -halfSize; x <= halfSize; x++) {
+            for (int z = -halfSize; z <= halfSize; z++) {
+                if (x == -halfSize || x == halfSize || z == -halfSize || z == halfSize) {
+                    for (int y = -3; y <= size; y++) cageBlocks.add(center.clone().add(x, y, z));
+                }
+            }
+        }
+        for (int x = -halfSize; x <= halfSize; x++) {
+            for (int z = -halfSize; z <= halfSize; z++) {
+                cageBlocks.add(center.clone().add(x, -3, z));
+                cageBlocks.add(center.clone().add(x, size, z));
+            }
+        }
+        totalBlocksToPlace = cageBlocks.size();
     }
 
     private void createObsidianCage(Ritual ritual) {
-        Location center = ritual.getCenterLocation();
-        if (center == null || center.getWorld() == null) return;
-
-        World world = center.getWorld();
-        int size = plugin.getConfigManager().getObsidianCageSize();
         String materialStr = plugin.getConfigManager().getObsidianCageMaterial();
         Material material = Material.matchMaterial(materialStr.toUpperCase());
         if (material == null) material = Material.OBSIDIAN;
 
-        int halfSize = size / 2;
+        gradualCageTask = new BukkitRunnable() {
+            private final java.util.Iterator<Location> iterator = cageBlocks.iterator();
+            private int blocksPlacedInCurrentTick = 0;
 
-        // Clear previous cage blocks
-        originalBlocks.clear();
-        cageBlocks.clear();
-
-        // Create a hollow obsidian cage (only outer walls)
-        for (int x = -halfSize; x <= halfSize; x++) {
-            for (int z = -halfSize; z <= halfSize; z++) {
-                // Only place blocks on the perimeter (outer walls)
-                if (x == -halfSize || x == halfSize || z == -halfSize || z == halfSize) {
-                    for (int y = -3; y <= size; y++) { // Extend 3 blocks below and size blocks above
-                        Location blockLoc = center.clone().add(x, y, z);
-                        captureAndSetBlock(blockLoc, material);
-                    }
+            @Override
+            public void run() {
+                blocksPlacedInCurrentTick = 0;
+                while (iterator.hasNext() && blocksPlacedInCurrentTick < plugin.getConfigManager().getObsidianCageBlocksPerTick()) {
+                    Location loc = iterator.next();
+                    captureAndSetBlock(loc, material);
+                    blocksPlacedInCurrentTick++;
+                }
+                if (!iterator.hasNext()) {
+                    cancel();
+                    startPeriodicRepair(ritual, material);
                 }
             }
-        }
+        }.runTaskTimer(plugin, 0L, 1L);
+    }
 
-        // Create a hollow floor (3 blocks below)
-        for (int x = -halfSize; x <= halfSize; x++) {
-            for (int z = -halfSize; z <= halfSize; z++) {
-                Location blockLoc = center.clone().add(x, -3, z);
-                captureAndSetBlock(blockLoc, material);
-            }
-        }
+    private void captureAndSetBlock(Location loc, Material material) {
+        Block block = loc.getBlock();
+        originalBlocks.put(loc.clone(), block.getBlockData().clone());
+        block.setType(material);
+    }
 
-        // Create a hollow ceiling (top)
-        for (int x = -halfSize; x <= halfSize; x++) {
-            for (int z = -halfSize; z <= halfSize; z++) {
-                Location blockLoc = center.clone().add(x, size, z);
-                captureAndSetBlock(blockLoc, material);
-            }
-        }
-
-        // Schedule periodic updates to replace any broken blocks
-        final Material finalMaterial = material;
+    private void startPeriodicRepair(Ritual ritual, Material material) {
         cageTask = new BukkitRunnable() {
             @Override
             public void run() {
@@ -125,45 +131,34 @@ public class ObsidianCageManager {
                     cancel();
                     return;
                 }
-
-                // Check and replace any broken blocks
                 for (Location loc : cageBlocks) {
                     if (loc.getWorld() == null) continue;
                     Block block = loc.getWorld().getBlockAt(loc);
-                    if (!block.getType().equals(finalMaterial)) {
-                        block.setType(finalMaterial);
-                    }
+                    if (!block.getType().equals(material)) block.setType(material);
                 }
             }
-        }.runTaskTimer(plugin, 20L, 20L); // Check every second
-    }
-
-    private void captureAndSetBlock(Location loc, Material material) {
-        Block block = loc.getBlock();
-        if (cageBlocks.contains(loc)) return; // Don't capture twice
-
-        originalBlocks.put(loc.clone(), block.getBlockData().clone());
-        cageBlocks.add(loc.clone());
-        block.setType(material);
+        }.runTaskTimer(plugin, 20L, 20L);
     }
 
     private void removeObsidianCage() {
-        // Restore all original blocks
-        for (Map.Entry<Location, BlockData> entry : originalBlocks.entrySet()) {
-            Location loc = entry.getKey();
-            BlockData data = entry.getValue();
-            if (loc.getWorld() == null) continue;
-            loc.getBlock().setBlockData(data);
-        }
-        originalBlocks.clear();
+        gradualRemoveTask = new BukkitRunnable() {
+            private final java.util.Iterator<Map.Entry<Location, BlockData>> iterator = originalBlocks.entrySet().iterator();
+            private int blocksRemovedInCurrentTick = 0;
+
+            @Override
+            public void run() {
+                blocksRemovedInCurrentTick = 0;
+                while (iterator.hasNext() && blocksRemovedInCurrentTick < plugin.getConfigManager().getObsidianCageBlocksPerTick()) {
+                    Map.Entry<Location, BlockData> entry = iterator.next();
+                    entry.getKey().getBlock().setBlockData(entry.getValue());
+                    blocksRemovedInCurrentTick++;
+                }
+                if (!iterator.hasNext()) cancel();
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
     }
 
-    public boolean isCageActive() {
-        return cageActive;
-    }
-
-    public boolean isCageBlock(Location location) {
-        if (!cageActive) return false;
-        return cageBlocks.contains(location);
-    }
+    public void shutdown() { stopCage(); }
+    public boolean isCageActive() { return cageActive; }
+    public boolean isCageBlock(Location location) { return cageActive && cageBlocks.contains(location); }
 }
