@@ -1,0 +1,47 @@
+name: ItemRituals
+version: 1.0.0
+main: com.itemrituals.plugin.ItemRitualsPlugin
+api-version: '1.20'
+author: ItemRituals
+softdepend: [PlaceholderAPI]
+
+permissions:
+  ritual.admin:
+    description: Grants all Item Rituals administrative permissions
+    default: op
+    children:
+      ritual.gui: true
+      ritual.start: true
+      ritual.stop: true
+      ritual.status: true
+      ritual.locate: true
+      ritual.reload: true
+      ritual.help: true
+  ritual.gui:
+    description: Open the Ritual Item GUI
+    default: op
+  ritual.start:
+    description: Start a ritual
+    default: op
+  ritual.stop:
+    description: Stop/cancel an active ritual
+    default: op
+  ritual.status:
+    description: View active ritual status
+    default: op
+  ritual.locate:
+    description: Locate the active ritual
+    default: op
+  ritual.reload:
+    description: Reload the plugin configuration
+    default: op
+  ritual.help:
+    description: View ritual help
+    default: op
+
+commands:
+  ritual:
+    description: Main command for Item Rituals
+    usage: /<command> [gui|start|item|status|locate|stop|reload|help]
+    permission: ritual.help
+    permission-message: §c☠ You do not have permission to use this command.

@@ -1,0 +1,242 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║                   ☠ ITEM RITUALS v1.0.0 ☠                    ║
+# ║          Mysterious, spooky, and dangerous rituals           ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+settings:
+  debug: false
+  # Check for updates (placeholder)
+  check-updates: true
+
+# ───────────────────────────────────────────────────────────────
+# RITUAL CORE SETTINGS
+# ───────────────────────────────────────────────────────────────
+ritual:
+  # Duration in seconds (default: 600 = 10 minutes)
+  duration: 600
+  # Ritual area radius in blocks
+  radius: 25
+  # Interval in seconds between phase transitions
+  phase-interval: 120
+  # Number of warning announcements before completion
+  warning-count: 3
+
+# ───────────────────────────────────────────────────────────────
+# ITEM SELECTION
+# ───────────────────────────────────────────────────────────────
+ritual-selection:
+  # Modes: RANDOM, FIRST, PRIORITY
+  mode: RANDOM
+  # Remove the item from the pool when the ritual completes
+  remove-item-on-completion: true
+  # Return the item to the pool if the ritual is cancelled
+  return-item-if-cancelled: true
+  # Priority items (only used when mode is PRIORITY)
+  priority-materials: []
+
+# ───────────────────────────────────────────────────────────────
+# RANDOM LOCATION FINDER
+# ───────────────────────────────────────────────────────────────
+location:
+  random: true
+  min-distance-from-spawn: 1000
+  max-distance-from-spawn: 5000
+  min-distance-from-players: 300
+  # Worlds where rituals can spawn (empty = all worlds)
+  allowed-worlds: []
+  # Maximum attempts to find a valid location
+  max-attempts: 50
+  # Restrictions
+  restrictions:
+    avoid-water: true
+    avoid-lava: true
+    avoid-void: true
+    avoid-regions: true
+    # Minimum Y level
+    min-y: 50
+    # Maximum Y level
+    max-y: 120
+
+# ───────────────────────────────────────────────────────────────
+# BOSSBAR
+# ───────────────────────────────────────────────────────────────
+bossbar:
+  enabled: true
+  # BossBar color: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  color: RED
+  # BossBar style: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  style: SOLID
+  # Title format (supports placeholders)
+  title: "&c☠ RITUAL: &f{item} &8— &aX: {x} Y: {y} Z: {z} &8| &cRemaining: {time}"
+  # Update interval in ticks (20 ticks = 1 second)
+  update-interval: 20
+
+# ───────────────────────────────────────────────────────────────
+# PARTICLES & ATMOSPHERE
+# ───────────────────────────────────────────────────────────────
+particles:
+  enabled: true
+  # Particles spawn interval in ticks
+  interval: 10
+  # Particle types used during rituals
+  types:
+    - SOUL_FIRE_FLAME
+    - ASH
+    - SMOKE_LARGE
+    - WITCH
+    - ENCHANTMENT_TABLE
+    - DRIP_LAVA
+    - FALLING_OBSIDIAN_TEAR
+  # Intensity increases as ritual progresses
+  intensity-scaling: true
+
+# ───────────────────────────────────────────────────────────────
+# SOUNDS
+# ───────────────────────────────────────────────────────────────
+sounds:
+  enabled: true
+  # Sound categories
+  awakening:
+    sound: ENTITY_WARDEN_HEARTBEAT
+    volume: 0.15
+    pitch: 0.7
+  warning:
+    sound: BLOCK_RESPAWN_ANCHOR_AMBIENT
+    volume: 0.20
+    pitch: 0.6
+  ambient:
+    sound: AMBIENT_CAVE
+    volume: 0.25
+    pitch: 0.5
+  completion:
+    sound: ENTITY_WITHER_SPAWN
+    volume: 0.8
+    pitch: 0.8
+  cancellation:
+    sound: ENTITY_GHAST_SCREAM
+    volume: 0.5
+    pitch: 0.6
+  lightning:
+    sound: ENTITY_LIGHTNING_BOLT_THUNDER
+    volume: 0.6
+    pitch: 0.7
+
+# ───────────────────────────────────────────────────────────────
+# LIGHTNING
+# ───────────────────────────────────────────────────────────────
+lightning:
+  enabled: true
+  # Visual only — does not cause damage or fire
+  visual-only: true
+  # Base interval in seconds between lightning strikes
+  base-interval: 30
+  # Interval decreases as ritual progresses
+  intensity-scaling: true
+  # Minimum interval at final phase (seconds)
+  min-interval: 3
+
+# ───────────────────────────────────────────────────────────────
+# ITEM PROTECTION
+# ───────────────────────────────────────────────────────────────
+protection:
+  # Prevent players from picking up the ritual item before completion
+  prevent-pickup: true
+  # Prevent hopper/hopper-minecart collection
+  prevent-hopper-pickup: true
+  # Prevent explosions from destroying the item
+  prevent-explosion: true
+  # Prevent the item from despawning
+  prevent-despawn: true
+  # Prevent item from burning in fire/lava
+  prevent-fire: true
+  # Glow effect on the ritual item
+  glow-effect: true
+
+# ───────────────────────────────────────────────────────────────
+# ANNOUNCEMENTS
+# ───────────────────────────────────────────────────────────────
+announcements:
+  start: true
+  warning: true
+  complete: true
+  cancel: true
+  # Radius for local announcements (0 = server-wide)
+  local-radius: 0
+
+# ───────────────────────────────────────────────────────────────
+# MESSAGES (supports color codes with &)
+# ───────────────────────────────────────────────────────────────
+messages:
+  prefix: "&8[&c☠&8] &7"
+  no-permission: "&cYou do not have permission to use this command."
+  no-active-ritual: "&cThere is no active ritual."
+  ritual-already-active: "&cA ritual is already active."
+  ritual-started: "&aRitual started successfully."
+  ritual-stopped: "&cRitual has been stopped."
+  ritual-completed: "&aRitual completed! The relic has been awakened."
+  ritual-cancelled: "&cRitual has been cancelled."
+  item-added: "&aItem added to the Ritual Item Pool."
+  item-removed: "&cItem removed from the Ritual Item Pool."
+  pool-empty: "&cThe Ritual Item Pool is empty."
+  config-reloaded: "&aConfiguration reloaded."
+
+  # Announcement messages
+  announce-start:
+    - "&8◈ &c☠ &7A &cRITUAL &7has awakened at &c{x}, {y}, {z}&7!"
+    - "&8◈ &7The &c{item} &7is now active. Find it before time runs out."
+
+  announce-warning:
+    - "&8⚡ &cWARNING &8⚡ &7- The ritual is intensifying!"
+
+  announce-complete:
+    - "&8◈ &a☠ &7RITUAL &aCOMPLETED &8☠ &7◈"
+    - "&8◈ &aThe &c{item} &7has been fully awakened!"
+    - "&8◈ &7Claim your reward before it vanishes!"
+
+  announce-cancel:
+    - "&8◈ &c☠ &7RITUAL &cCANCELLED &8☠ &7◈"
+    - "&8◈ &7The ritual has been silenced..."
+
+# ───────────────────────────────────────────────────────────────
+# OBSIDIAN CAGE
+# ───────────────────────────────────────────────────────────────
+obsidian-cage:
+  # Enable the obsidian cage around the ritual
+  enabled: true
+  # Size of the cage (30 = 30x30 blocks)
+  size: 30
+  # Duration of the ritual in seconds (cage appears in the last N seconds)
+  # This is used to calculate when to spawn the cage
+  duration: 600
+  # Time in seconds before ritual completion when cage appears (e.g., 180 = 3 mins, 120 = 2 mins)
+  warning-time: 120
+  # Material for the cage (default: OBSIDIAN)
+  material: OBSIDIAN
+  # Announce when cage appears
+  announce: true
+  # Messages to send when cage appears
+  announce-msg:
+    - "&e✦ &c☠ &6Obsidian Cage Formed! &c☠ &e✦"
+    - "&7The ritual is now sealed within an obsidian cage!"
+
+# ───────────────────────────────────────────────────────────────
+# GUI SETTINGS
+# ───────────────────────────────────────────────────────────────
+gui:
+  title: "&8☠ Ritual Items ☠"
+  size: 54
+  # Slot for the 'Start Ritual' button
+  start-button-slot: 49
+  start-button-name: "&c&lSTART RITUAL"
+  start-button-lore:
+    - "&7Click to start a ritual"
+    - "&7with a random item from"
+    - "&7the pool."
+  # Filler item for empty slots
+  filler-enabled: true
+  filler-material: BLACK_STAINED_GLASS_PANE
+  filler-name: " "
+  # Item pool slots (0-44)
+  pool-slots:
+    start: 0
+    end: 44

@@ -1,0 +1,8 @@
+target/
+*.patch
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.memory/
