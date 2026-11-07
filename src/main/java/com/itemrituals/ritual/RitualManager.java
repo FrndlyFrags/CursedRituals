@@ -41,7 +41,6 @@ public class RitualManager {
 
         Location location;
         if (plugin.getConfigManager().isRandomLocation()) {
-            // Use the startSearch API to find a location
             LocationFinder.LocationSearchSession session = plugin.getLocationFinder().startSearch();
             location = session.findNext(plugin.getConfigManager().getMaxAttempts());
         } else {
@@ -62,6 +61,11 @@ public class RitualManager {
         int radius = plugin.getConfigManager().getRitualRadius();
         activeRitual = new Ritual(selectedItem, location, duration, radius);
 
+        // Keep the chunk loaded while the ritual is active to prevent lag from repeated loads
+        if (location.getWorld() != null) {
+            location.getChunk().setForceLoaded(true);
+        }
+
         spawnRewardItem();
         startTasks();
         plugin.getObsidianCageManager().startCage(activeRitual);
@@ -70,7 +74,6 @@ public class RitualManager {
             plugin.getAnnouncementManager().announceStart(activeRitual);
             plugin.getAnnouncementManager().sendTitleNotification(location, "Ritual Started", 10, 70, 20);
         }
-
 
         return true;
     }
@@ -131,9 +134,6 @@ public class RitualManager {
                     Location center = activeRitual.getCenterLocation().clone().add(0, 1.5, 0);
                     activeRitual.getDroppedItem().teleport(center);
                 }
-
-                // Trigger day-night cycling in the last 2 minutes
-                // Removed day-night cycle to keep the world time unchanged during the ritual
             }
         };
         ritualTask.runTaskTimer(plugin, 20L, 20L);
@@ -187,13 +187,8 @@ public class RitualManager {
         if (activeRitual == null) return;
         activeRitual.setCompleted(true);
 
-        // Unlock the item
         Location center = activeRitual.getCenterLocation();
         if (center != null && center.getWorld() != null) {
-            boolean chunkLoaded = center.getChunk().isLoaded();
-            if (!chunkLoaded) {
-                center.getChunk().load();
-            }
             Item droppedItem = activeRitual.getDroppedItem();
             if (droppedItem != null) {
                 droppedItem.setPickupDelay(0);
@@ -202,8 +197,6 @@ public class RitualManager {
                 droppedItem.setGlowing(false);
                 droppedItem.removeMetadata("ritual_reward", plugin);
             }
-            // Allow chunk to unload naturally instead of forcing it immediately
-            // This prevents potential entity desync issues
         }
 
         if (plugin.getConfigManager().isRemoveOnCompletion()) {
@@ -225,11 +218,13 @@ public class RitualManager {
         plugin.getObsidianCageManager().stopCage();
         restoreWorldTime();
 
-        // Cleanup after a delay
+        final Ritual completedRitual = activeRitual;
         new BukkitRunnable() {
             @Override
             public void run() {
-                cleanup();
+                if (activeRitual == completedRitual) {
+                    cleanup();
+                }
             }
         }.runTaskLater(plugin, 200L);
     }
@@ -240,16 +235,10 @@ public class RitualManager {
 
         Location center = activeRitual.getCenterLocation();
         if (center != null && center.getWorld() != null) {
-            boolean chunkLoaded = center.getChunk().isLoaded();
-            if (!chunkLoaded) {
-                center.getChunk().load();
-            }
             Item droppedItem = activeRitual.getDroppedItem();
             if (droppedItem != null) {
                 droppedItem.remove();
             }
-            // Allow chunk to unload naturally instead of forcing it immediately
-            // This prevents potential entity desync issues
         }
 
         if (cancelled && plugin.getConfigManager().isReturnIfCancelled()) {
@@ -276,13 +265,19 @@ public class RitualManager {
         if (activeRitual != null) {
             World world = activeRitual.getCenterLocation().getWorld();
             if (world != null) {
-                world.setTime(6000L); // restore to daytime
+                world.setTime(6000L);
             }
         }
         dayNightActive = false;
     }
 
     private void cleanup() {
+        if (activeRitual != null) {
+            Location loc = activeRitual.getCenterLocation();
+            if (loc != null && loc.getWorld() != null) {
+                loc.getChunk().setForceLoaded(false);
+            }
+        }
         if (ritualTask != null) { ritualTask.cancel(); ritualTask = null; }
         if (effectsTask != null) { effectsTask.cancel(); effectsTask = null; }
         if (lightningTask != null) { lightningTask.cancel(); lightningTask = null; }

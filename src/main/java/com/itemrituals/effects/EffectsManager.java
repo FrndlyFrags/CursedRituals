@@ -20,6 +20,8 @@ public class EffectsManager {
 
     private final ItemRitualsPlugin plugin;
     private final Random random;
+    private final java.util.Map<Location, Double> groundLevelCache = new java.util.HashMap<>();
+    private Ritual lastRitual;
 
     public EffectsManager(ItemRitualsPlugin plugin) {
         this.plugin = plugin;
@@ -29,6 +31,11 @@ public class EffectsManager {
     public void playEffects(Ritual ritual) {
         if (!plugin.getConfigManager().isParticlesEnabled())
             return;
+
+        if (lastRitual != ritual) {
+            groundLevelCache.clear();
+            lastRitual = ritual;
+        }
 
         Location center = ritual.getCenterLocation();
         World world = center.getWorld();
@@ -41,28 +48,35 @@ public class EffectsManager {
         // Check if ritual is in the final phase (last 25% of duration)
         boolean isFinalPhase = progress >= 0.75;
 
-        // 1. Draw a beautiful, ground-conforming outer boundary ring (optimized - fewer points)
+        // 1. Draw a beautiful, ground-conforming outer boundary ring
         if (!isFinalPhase) {
             double ringSpeedFactor = 1.0 + progress * 0.5;
             double ringTime = (System.currentTimeMillis() / 1000.0) * ringSpeedFactor;
-            int boundaryPoints = 24; // Reduced from 36 for performance
+            int boundaryPoints = 16; // Further reduced for performance
             int centerBlockY = center.getBlockY();
             for (int i = 0; i < boundaryPoints; i++) {
                 double angle = (2.0 * Math.PI / boundaryPoints) * i + ringTime;
                 double x = center.getX() + Math.cos(angle) * radius;
                 double z = center.getZ() + Math.sin(angle) * radius;
 
-                // Conforming to terrain: search ground level +/- 3 blocks relative to center Y
-                double y = center.getY();
-                int intX = (int) Math.floor(x);
-                int intZ = (int) Math.floor(z);
-                for (int offset = 3; offset >= -3; offset--) {
-                    if (world.getBlockAt(intX, centerBlockY + offset, intZ).getType().isSolid()) {
-                        y = centerBlockY + offset + 1.1; // Spawn slightly above the solid block
-                        break;
+                // Conforming to terrain with caching
+                Location cacheKey = new Location(world, Math.floor(x), 0, Math.floor(z));
+                double y;
+                if (groundLevelCache.containsKey(cacheKey)) {
+                    y = groundLevelCache.get(cacheKey);
+                } else {
+                    y = center.getY();
+                    int intX = cacheKey.getBlockX();
+                    int intZ = cacheKey.getBlockZ();
+                    for (int offset = 3; offset >= -3; offset--) {
+                        if (world.getBlockAt(intX, centerBlockY + offset, intZ).getType().isSolid()) {
+                            y = centerBlockY + offset + 1.1;
+                            break;
+                        }
                     }
+                    groundLevelCache.put(cacheKey, y);
                 }
-                // Reduced particle count for performance // Reduced particle count
+                world.spawnParticle(Particle.REDSTONE, x, y, z, 1, 0, 0, 0, 0, new Particle.DustOptions(org.bukkit.Color.PURPLE, 1.0f));
             }
         }
 
