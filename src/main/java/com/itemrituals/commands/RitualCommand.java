@@ -34,11 +34,22 @@ public class RitualCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(plugin.getConfigManager().getPrefix() + plugin.getConfigManager().getPoolEmpty());
                     return true;
                 }
-                // 10-second countdown broadcast to all players
+
+                // Prepare location search session
+                final LocationSearchSession session = plugin.getLocationFinder().startSearch();
+                final java.util.concurrent.atomic.AtomicReference<Location> foundLoc = new java.util.concurrent.atomic.AtomicReference<>();
+
                 sender.sendMessage(plugin.getConfigManager().getPrefix() + "§eRitual starting in §c10 §eseconds...");
                 new org.bukkit.scheduler.BukkitRunnable() {
                     int countdown = 10;
                     @Override public void run() {
+                        // Spread the search over the countdown to avoid lag
+                        if (plugin.getConfigManager().isRandomLocation() && foundLoc.get() == null) {
+                            foundLoc.set(session.findNext(5)); // Find 5 candidates per second
+                        } else if (foundLoc.get() == null) {
+                            foundLoc.set(plugin.getServer().getWorlds().get(0).getSpawnLocation());
+                        }
+
                         if (countdown > 0) {
                             String msg;
                             if (countdown <= 3) {
@@ -51,7 +62,10 @@ public class RitualCommand implements CommandExecutor, TabCompleter {
                         } else {
                             cancel();
                             if (!plugin.getRitualManager().isActive()) {
-                                if (!plugin.getRitualManager().startRitual()) {
+                                Location loc = foundLoc.get();
+                                if (loc == null) loc = plugin.getServer().getWorlds().get(0).getSpawnLocation();
+
+                                if (!plugin.getRitualManager().startRitual(plugin.getItemPoolManager().selectItem(), loc)) {
                                     plugin.getServer().broadcastMessage(plugin.getConfigManager().getPrefix() + plugin.getConfigManager().getPoolEmpty());
                                 }
                             }
