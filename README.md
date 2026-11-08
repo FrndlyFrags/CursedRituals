@@ -9,9 +9,18 @@ A Minecraft Bukkit/Paper plugin that adds mystical ritual events to your server.
 
 ---
 
+## 💎 Features
+- **Ritual System**: Start rituals with items from a configurable pool.
+- **Dynamic BossBar**: Track remaining time and ritual details in real-time.
+- **Atmospheric Effects**: Immersive particles and sounds.
+- **Obsidian Cage**: A sealed 30x30 magical barrier that auto-repairs.
+- **Item Protection**: Prevent item theft, destruction, or despawning.
+- **Location Randomization**: Automated safe-zone detection.
+
+
 ## 🗺️ How it Works
 
-### 👥 Player Flow
+### ⚙️ Admin Flow
 ```mermaid
 graph TD
     A[Open GUI /ritual gui] --> B{Choose Item from Pool}
@@ -24,8 +33,7 @@ graph TD
     F -- No --> H[Retrieve Item]
     H --> I[Ritual Complete]
 ```
-
-### ⚙️ Admin Flow
+###  How To Use 
 ```mermaid
 graph TD
     A[Install Plugin] --> B[Edit config.yml]
@@ -38,13 +46,6 @@ graph TD
 
 ---
 
-## 💎 Features
-- **Ritual System**: Start rituals with items from a configurable pool.
-- **Dynamic BossBar**: Track remaining time and ritual details in real-time.
-- **Atmospheric Effects**: Immersive particles and sounds.
-- **Obsidian Cage**: A sealed 30x30 magical barrier that auto-repairs.
-- **Item Protection**: Prevent item theft, destruction, or despawning.
-- **Location Randomization**: Automated safe-zone detection.
 
 ## 🛠️ Configuration
 Edit `plugins/ItemRituals/config.yml` to customize:
