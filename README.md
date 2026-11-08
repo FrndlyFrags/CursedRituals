@@ -1,4 +1,4 @@
-# ItemRituals Plugin
+# CursedRituals Plugin
 
 A Minecraft Bukkit/Paper plugin that adds mystical ritual events to your server. Players can select powerful items from a pool, start rituals that summon a reward item, and compete to collect it before time runs out.
 
