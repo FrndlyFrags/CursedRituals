@@ -14,7 +14,7 @@ A Minecraft Bukkit/Paper plugin that adds mystical ritual events to your server.
 ### 👥 Player Flow
 ```mermaid
 graph TD
-    A[Open GUI /ritual] --> B{Choose Item from Pool}
+    A[Open GUI /ritual gui] --> B{Choose Item from Pool}
     B --> C[Click 'Start Ritual']
     C --> D[Ritual Awakens]
     D --> E[Atmospheric Effects & BossBar]
