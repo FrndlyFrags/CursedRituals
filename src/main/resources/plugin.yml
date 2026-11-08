@@ -1,13 +1,13 @@
-name: ItemRituals
+name: CursedRitual
 version: 1.0.0
 main: com.itemrituals.plugin.ItemRitualsPlugin
 api-version: '1.13'
-author: ItemRituals
+author: FrndlyFrags
 softdepend: [PlaceholderAPI]
 
 permissions:
   ritual.admin:
-    description: Grants all Item Rituals administrative permissions
+    description: Grants all Cursed Ritual administrative permissions
     default: op
     children:
       ritual.gui: true

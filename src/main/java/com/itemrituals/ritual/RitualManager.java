@@ -191,6 +191,18 @@ public class RitualManager {
         if (center != null && center.getWorld() != null) {
             Item droppedItem = activeRitual.getDroppedItem();
             if (droppedItem != null) {
+                // Apply "Cursed " prefix to the reward item upon ritual completion
+                ItemStack itemStack = droppedItem.getItemStack();
+                org.bukkit.inventory.meta.ItemMeta meta = itemStack.getItemMeta();
+                if (meta != null) {
+                    String existingName = meta.hasDisplayName()
+                            ? meta.getDisplayName()
+                            : itemStack.getType().name().replace('_', ' ').toLowerCase();
+                    meta.setDisplayName("§c☠ Cursed " + existingName);
+                    itemStack.setItemMeta(meta);
+                    droppedItem.setItemStack(itemStack);
+                }
+
                 droppedItem.setPickupDelay(0);
                 droppedItem.setGravity(true);
                 droppedItem.setInvulnerable(false);
