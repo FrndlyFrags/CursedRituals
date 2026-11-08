@@ -218,7 +218,7 @@ obsidian-cage:
 
   # Block material used for the cage (e.g., OBSIDIAN, BLACK_CONCRETE)
   # Obsidian is recommended for its mystical look, but you can change it!
-  material: OBSIDIAN
+  material: CRYING_OBSIDIAN
 
   # Send an announcement when the cage forms
   announce: true
