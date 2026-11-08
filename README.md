@@ -9,12 +9,21 @@ A Minecraft Bukkit/Paper plugin that adds mystical ritual events to your server.
 
 ---
 
+## 💎 Features
+- **Ritual System**: Start rituals with items from a configurable pool.
+- **Dynamic BossBar**: Track remaining time and ritual details in real-time.
+- **Atmospheric Effects**: Immersive particles and sounds.
+- **Obsidian Cage**: A sealed 30x30 magical barrier that auto-repairs.
+- **Item Protection**: Prevent item theft, destruction, or despawning.
+- **Location Randomization**: Automated safe-zone detection.
+
+
 ## 🗺️ How it Works
 
-### 👥 Player Flow
+### ⚙️ Admin Flow
 ```mermaid
 graph TD
-    A[Open GUI /ritual] --> B{Choose Item from Pool}
+    A[Open GUI /ritual gui] --> B{Choose Item from Pool}
     B --> C[Click 'Start Ritual']
     C --> D[Ritual Awakens]
     D --> E[Atmospheric Effects & BossBar]
@@ -24,12 +33,11 @@ graph TD
     F -- No --> H[Retrieve Item]
     H --> I[Ritual Complete]
 ```
-
-### ⚙️ Admin Flow
+###  How To Use 
 ```mermaid
 graph TD
     A[Install Plugin] --> B[Edit config.yml]
-    B --> C[Set Location Constraints]
+    B --> C[Check Location Constraints]
     B --> D[Configure Atmosphere & Cage]
     D --> E[Use /ritual commands]
     E --> F[Add/Remove Items via GUI]
@@ -38,13 +46,6 @@ graph TD
 
 ---
 
-## 💎 Features
-- **Ritual System**: Start rituals with items from a configurable pool.
-- **Dynamic BossBar**: Track remaining time and ritual details in real-time.
-- **Atmospheric Effects**: Immersive particles and sounds.
-- **Obsidian Cage**: A sealed 30x30 magical barrier that auto-repairs.
-- **Item Protection**: Prevent item theft, destruction, or despawning.
-- **Location Randomization**: Automated safe-zone detection.
 
 ## 🛠️ Configuration
 Edit `plugins/ItemRituals/config.yml` to customize:
@@ -60,6 +61,7 @@ Edit `plugins/ItemRituals/config.yml` to customize:
 | `/ritual start` | Manually start a ritual |
 | `/ritual stop` | Stop the current ritual |
 | `/ritual reload` | Reload the plugin configuration |
+| `//ritual status` | Check Location, Phase and Dimension |
 
 ## 🏗️ Building from Source
 Requires Maven and Java 17+:
