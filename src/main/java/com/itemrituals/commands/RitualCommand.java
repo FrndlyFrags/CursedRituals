@@ -98,7 +98,6 @@ public class RitualCommand implements CommandExecutor, TabCompleter {
                         ritual.getCenterLocation().getBlockY() + ", " + ritual.getCenterLocation().getBlockZ());
                 sender.sendMessage("§7Phase: §f" + ritual.getPhase());
                 sender.sendMessage("§7Time Remaining: §f" + String.format("%02d:%02d", sec / 60, sec % 60));
-                sender.sendMessage("§7Radius: §f" + ritual.getRadius());
                 sender.sendMessage("§8§m-------------------");
             }
             case "locate" -> {

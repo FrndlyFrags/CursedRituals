@@ -68,4 +68,4 @@ mvn clean package
 ```
 
 ---
-*Built for PaperMC 1.20.4+*
+*Built for Spigot, PaperMC, and Purpur 1.13+ (Geyser/Bedrock supported via platform)*
