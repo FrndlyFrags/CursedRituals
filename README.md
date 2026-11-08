@@ -29,7 +29,7 @@ graph TD
 ```mermaid
 graph TD
     A[Install Plugin] --> B[Edit config.yml]
-    B --> C[Set Location Constraints]
+    B --> C[Check Location Constraints]
     B --> D[Configure Atmosphere & Cage]
     D --> E[Use /ritual commands]
     E --> F[Add/Remove Items via GUI]
@@ -60,6 +60,7 @@ Edit `plugins/ItemRituals/config.yml` to customize:
 | `/ritual start` | Manually start a ritual |
 | `/ritual stop` | Stop the current ritual |
 | `/ritual reload` | Reload the plugin configuration |
+| `//ritual status` | Check Location, Phase and Dimension |
 
 ## 🏗️ Building from Source
 Requires Maven and Java 17+:
