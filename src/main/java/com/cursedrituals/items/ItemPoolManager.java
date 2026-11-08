@@ -1,6 +1,6 @@
-package com.itemrituals.items;
+package com.cursedrituals.items;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -11,13 +11,13 @@ import java.util.*;
 
 public class ItemPoolManager {
 
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
     private final File poolFile;
     private FileConfiguration poolConfig;
     private final List<ItemStack> poolItems;
     private final Set<Integer> reservedSlots;
 
-    public ItemPoolManager(ItemRitualsPlugin plugin) {
+    public ItemPoolManager(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
         this.poolFile = new File(plugin.getDataFolder(), "pool.yml");
         this.poolItems = new ArrayList<>();

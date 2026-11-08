@@ -1,8 +1,8 @@
-package com.itemrituals.commands;
+package com.cursedrituals.commands;
 
-import com.itemrituals.location.LocationFinder.LocationSearchSession;
-import com.itemrituals.plugin.ItemRitualsPlugin;
-import com.itemrituals.ritual.Ritual;
+import com.cursedrituals.location.LocationFinder.LocationSearchSession;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
+import com.cursedrituals.ritual.Ritual;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RitualCommand implements CommandExecutor, TabCompleter {
-    private final ItemRitualsPlugin plugin;
-    public RitualCommand(ItemRitualsPlugin plugin) { this.plugin = plugin; }
+    private final CursedRitualsPlugin plugin;
+    public RitualCommand(CursedRitualsPlugin plugin) { this.plugin = plugin; }
 
     @Override public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) { sendHelp(sender); return true; }

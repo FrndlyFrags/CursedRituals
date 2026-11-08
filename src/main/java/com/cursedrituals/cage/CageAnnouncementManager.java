@@ -1,17 +1,17 @@
-package com.itemrituals.cage;
+package com.cursedrituals.cage;
 
-import com.itemrituals.config.ConfigManager;
-import com.itemrituals.plugin.ItemRitualsPlugin;
-import com.itemrituals.ritual.Ritual;
+import com.cursedrituals.config.ConfigManager;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
+import com.cursedrituals.ritual.Ritual;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import java.util.List;
 
 public class CageAnnouncementManager {
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
 
-    public CageAnnouncementManager(ItemRitualsPlugin plugin) {
+    public CageAnnouncementManager(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
     }
 

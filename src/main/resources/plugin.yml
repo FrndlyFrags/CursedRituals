@@ -1,6 +1,6 @@
 name: CursedRitual
 version: 1.0.0
-main: com.itemrituals.plugin.ItemRitualsPlugin
+main: com.cursedrituals.plugin.CursedRitualsPlugin
 api-version: '1.13'
 author: FrndlyFrags
 softdepend: [PlaceholderAPI]

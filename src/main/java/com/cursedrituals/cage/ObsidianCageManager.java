@@ -1,7 +1,7 @@
-package com.itemrituals.cage;
+package com.cursedrituals.cage;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
-import com.itemrituals.ritual.Ritual;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
+import com.cursedrituals.ritual.Ritual;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,7 +12,7 @@ import java.util.*;
 
 public class ObsidianCageManager {
 
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
     private BukkitTask cageTask;
     private boolean cageActive;
     private final Map<Location, BlockData> originalBlocks = new HashMap<>();
@@ -20,7 +20,7 @@ public class ObsidianCageManager {
     private BukkitTask gradualCageTask;
     private BukkitTask gradualRemoveTask;
 
-    public ObsidianCageManager(ItemRitualsPlugin plugin) {
+    public ObsidianCageManager(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
         this.cageActive = false;
     }

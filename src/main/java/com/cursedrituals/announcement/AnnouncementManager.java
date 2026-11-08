@@ -1,15 +1,15 @@
-package com.itemrituals.announcement;
+package com.cursedrituals.announcement;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
-import com.itemrituals.ritual.Ritual;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
+import com.cursedrituals.ritual.Ritual;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import java.util.List;
 
 public class AnnouncementManager {
-    private final ItemRitualsPlugin plugin;
-    public AnnouncementManager(ItemRitualsPlugin plugin) { this.plugin = plugin; }
+    private final CursedRitualsPlugin plugin;
+    public AnnouncementManager(CursedRitualsPlugin plugin) { this.plugin = plugin; }
     public void announceStart(Ritual ritual) { broadcast(plugin.getConfigManager().getAnnounceStartMsg(), ritual); }
     public void announceWarning(Ritual ritual) { broadcast(plugin.getConfigManager().getAnnounceWarningMsg(), ritual); }
     public void announceComplete(Ritual ritual) { broadcast(plugin.getConfigManager().getAnnounceCompleteMsg(), ritual); }

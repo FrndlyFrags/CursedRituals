@@ -1,6 +1,6 @@
-package com.itemrituals.location;
+package com.cursedrituals.location;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -13,10 +13,10 @@ import java.util.Random;
 
 public class LocationFinder {
 
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
     private final Random random;
 
-    public LocationFinder(ItemRitualsPlugin plugin) {
+    public LocationFinder(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
         this.random = new Random();
     }

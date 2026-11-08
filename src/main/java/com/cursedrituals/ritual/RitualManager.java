@@ -1,8 +1,8 @@
-package com.itemrituals.ritual;
+package com.cursedrituals.ritual;
 
-import com.itemrituals.cage.ObsidianCageManager;
-import com.itemrituals.location.LocationFinder;
-import com.itemrituals.plugin.ItemRitualsPlugin;
+import com.cursedrituals.cage.ObsidianCageManager;
+import com.cursedrituals.location.LocationFinder;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class RitualManager {
 
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
     private Ritual activeRitual;
     private BukkitRunnable ritualTask;
     private BukkitRunnable effectsTask;
@@ -20,7 +20,7 @@ public class RitualManager {
     private BukkitRunnable dayNightTask;
     private boolean dayNightActive = false;
 
-    public RitualManager(ItemRitualsPlugin plugin) {
+    public RitualManager(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
     }
 

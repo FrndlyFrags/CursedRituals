@@ -1,6 +1,6 @@
-package com.itemrituals.gui;
+package com.cursedrituals.gui;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RitualItemGUI implements Listener {
-    private final ItemRitualsPlugin plugin;
-    public RitualItemGUI(ItemRitualsPlugin plugin) { this.plugin = plugin; }
+    private final CursedRitualsPlugin plugin;
+    public RitualItemGUI(CursedRitualsPlugin plugin) { this.plugin = plugin; }
 
     public void open(Player player) {
         Inventory inv = Bukkit.createInventory(null, plugin.getConfigManager().getGuiSize(), plugin.getConfigManager().getGuiTitle());

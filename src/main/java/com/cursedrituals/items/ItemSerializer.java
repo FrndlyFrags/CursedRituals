@@ -1,4 +1,4 @@
-package com.itemrituals.items;
+package com.cursedrituals.items;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;

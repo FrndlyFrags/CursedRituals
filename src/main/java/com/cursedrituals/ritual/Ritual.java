@@ -1,4 +1,4 @@
-package com.itemrituals.ritual;
+package com.cursedrituals.ritual;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Item;

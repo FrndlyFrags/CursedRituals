@@ -1,6 +1,6 @@
-package com.itemrituals.protection;
+package com.cursedrituals.protection;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,8 +14,8 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.entity.Player;
 
 public class ProtectionListener implements Listener {
-    private final ItemRitualsPlugin plugin;
-    public ProtectionListener(ItemRitualsPlugin plugin) { this.plugin = plugin; }
+    private final CursedRitualsPlugin plugin;
+    public ProtectionListener(CursedRitualsPlugin plugin) { this.plugin = plugin; }
     private boolean isProtected(Item item) {
         if (!item.hasMetadata("ritual_item")) return false;
         for (MetadataValue v : item.getMetadata("ritual_reward"))

@@ -1,11 +1,11 @@
-# ItemRituals Plugin
+# CursedRituals Plugin
 
 A Minecraft Bukkit/Paper plugin that adds mystical ritual events to your server. Players can select powerful items from a pool, start rituals that summon a reward item, and compete to collect it before time runs out.
 
 ## 🚀 Quick Start
 1. **Download** the latest JAR.
 2. **Install** to your `plugins/` folder.
-3. **Restart** server and configure in `plugins/ItemRituals/config.yml`.
+3. **Restart** server and configure in `plugins/CursedRituals/config.yml`.
 
 ---
 
@@ -48,7 +48,7 @@ graph TD
 
 
 ## 🛠️ Configuration
-Edit `plugins/ItemRituals/config.yml` to customize:
+Edit `plugins/CursedRituals/config.yml` to customize:
 - **Ritual Core**: Duration, radius, phase intervals.
 - **Obsidian Cage**: Enabled state, size, warning time, material.
 - **Atmosphere**: Particles and ambient sounds.

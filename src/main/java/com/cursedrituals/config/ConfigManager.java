@@ -1,6 +1,6 @@
-package com.itemrituals.config;
+package com.cursedrituals.config;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
 import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -21,7 +21,7 @@ public class ConfigManager {
     private int obsidianCageBlocksPerTick;
     private int obsidianCageAnnouncementDelay;
 
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
     private FileConfiguration config;
 
     // Settings
@@ -127,7 +127,7 @@ public class ConfigManager {
     private int poolSlotsStart;
     private int poolSlotsEnd;
 
-    public ConfigManager(ItemRitualsPlugin plugin) {
+    public ConfigManager(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
         reload();
     }

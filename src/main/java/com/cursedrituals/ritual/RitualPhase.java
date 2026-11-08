@@ -1,4 +1,4 @@
-package com.itemrituals.ritual;
+package com.cursedrituals.ritual;
 
 public enum RitualPhase {
     AWAKENING,

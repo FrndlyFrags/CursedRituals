@@ -1,9 +1,9 @@
-package com.itemrituals.effects;
+package com.cursedrituals.effects;
 
-import com.itemrituals.config.ConfigManager;
-import com.itemrituals.plugin.ItemRitualsPlugin;
-import com.itemrituals.ritual.Ritual;
-import com.itemrituals.ritual.RitualPhase;
+import com.cursedrituals.config.ConfigManager;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
+import com.cursedrituals.ritual.Ritual;
+import com.cursedrituals.ritual.RitualPhase;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -18,12 +18,12 @@ import java.util.Random;
 
 public class EffectsManager {
 
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
     private final Random random;
     private final java.util.Map<Location, Double> groundLevelCache = new java.util.HashMap<>();
     private Ritual lastRitual;
 
-    public EffectsManager(ItemRitualsPlugin plugin) {
+    public EffectsManager(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
         this.random = new Random();
     }

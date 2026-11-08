@@ -1,22 +1,22 @@
-package com.itemrituals.plugin;
+package com.cursedrituals.plugin;
 
-import com.itemrituals.announcement.AnnouncementManager;
-import com.itemrituals.bossbar.RitualBossBarManager;
-import com.itemrituals.commands.RitualCommand;
-import com.itemrituals.config.ConfigManager;
-import com.itemrituals.effects.EffectsManager;
-import com.itemrituals.gui.RitualItemGUI;
-import com.itemrituals.items.ItemPoolManager;
-import com.itemrituals.location.LocationFinder;
-import com.itemrituals.protection.ProtectionListener;
-import com.itemrituals.cage.ObsidianCageManager;
-import com.itemrituals.cage.CageAnnouncementManager;
-import com.itemrituals.ritual.RitualManager;
+import com.cursedrituals.announcement.AnnouncementManager;
+import com.cursedrituals.bossbar.RitualBossBarManager;
+import com.cursedrituals.commands.RitualCommand;
+import com.cursedrituals.config.ConfigManager;
+import com.cursedrituals.effects.EffectsManager;
+import com.cursedrituals.gui.RitualItemGUI;
+import com.cursedrituals.items.ItemPoolManager;
+import com.cursedrituals.location.LocationFinder;
+import com.cursedrituals.protection.ProtectionListener;
+import com.cursedrituals.cage.ObsidianCageManager;
+import com.cursedrituals.cage.CageAnnouncementManager;
+import com.cursedrituals.ritual.RitualManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class ItemRitualsPlugin extends JavaPlugin {
+public class CursedRitualsPlugin extends JavaPlugin {
 
-    private static ItemRitualsPlugin instance;
+    private static CursedRitualsPlugin instance;
     private ConfigManager configManager;
     private ItemPoolManager itemPoolManager;
     private RitualManager ritualManager;
@@ -76,7 +76,7 @@ public class ItemRitualsPlugin extends JavaPlugin {
         itemPoolManager.loadPool();
     }
 
-    public static ItemRitualsPlugin getInstance() {
+    public static CursedRitualsPlugin getInstance() {
         return instance;
     }
 

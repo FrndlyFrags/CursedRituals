@@ -1,8 +1,8 @@
-package com.itemrituals.bossbar;
+package com.cursedrituals.bossbar;
 
-import com.itemrituals.plugin.ItemRitualsPlugin;
-import com.itemrituals.ritual.Ritual;
-import com.itemrituals.ritual.RitualPhase;
+import com.cursedrituals.plugin.CursedRitualsPlugin;
+import com.cursedrituals.ritual.Ritual;
+import com.cursedrituals.ritual.RitualPhase;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.WorldBorder;
@@ -13,11 +13,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class RitualBossBarManager {
 
-    private final ItemRitualsPlugin plugin;
+    private final CursedRitualsPlugin plugin;
     private BossBar activeBossBar;
     private BukkitRunnable updateTask;
 
-    public RitualBossBarManager(ItemRitualsPlugin plugin) {
+    public RitualBossBarManager(CursedRitualsPlugin plugin) {
         this.plugin = plugin;
     }
 
